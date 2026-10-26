@@ -1,7 +1,8 @@
 # Internship Management System
 
-**Group 6 - Java OOP Mini Project**
-Team members: _<add names and roll numbers here>_
+**Group 6 - Java OOP Mini Project** | SVKM's NMIMS MPSTME, Mumbai
+
+**Authors:** _<add names and roll numbers here>_
 
 A Java web application that manages students, companies, internship postings, applications and selection status.
 It runs on the web server built into Java (`com.sun.net.httpserver`), so **no external libraries, frameworks or database are needed**.
@@ -64,25 +65,28 @@ To reset all data, stop the server and delete the `.dat` files in the `data/` fo
 | Generics | `DataStore<T extends Serializable>`, `Searchable<T>`, `Manageable<T>` |
 | Packages | `model`, `exception`, `service`, `util`, `web`, `main` |
 
-## Project structure
+## Repository structure
 
 ```
-InternshipManagementSystem/
-├── src/
-│   ├── model/       User, Student, CompanyRepresentative, Administrator, Company, Internship, Application, ApplicationStatus
-│   ├── exception/   InternshipSystemException and 6 subclasses
-│   ├── service/     Searchable, Manageable, Applicable, UserService, CompanyService, InternshipService, ApplicationService
-│   ├── util/        DataStore, Validator, PasswordUtil, IdGenerator, SampleData
-│   ├── web/         WebServer, Html
-│   └── main/        Main
-├── UML/             .puml sources and .png diagrams
-├── data/            saved data files (created at runtime)
-├── docs/            report and presentation
-├── run.bat / run.sh
+InternshipManagementSystemOOP/
+├── src/                     # Java source (packages: model, exception, service, util, web, main)
+│   ├── model/               #   User, Student, CompanyRepresentative, Administrator, Company, Internship, Application, ApplicationStatus
+│   ├── exception/           #   InternshipSystemException and 6 subclasses
+│   ├── service/             #   Searchable, Manageable, Applicable, UserService, CompanyService, InternshipService, ApplicationService
+│   ├── util/                #   DataStore, Validator, PasswordUtil, IdGenerator, SampleData
+│   ├── web/                 #   WebServer, Html
+│   └── main/                #   Main (entry point)
+├── data/                    # Saved data files (*.dat, created at runtime)
+├── docs/
+│   ├── diagrams/            # PlantUML sources (.puml)
+│   └── img/                 # Rendered UML diagrams (.png)
+├── scripts/                 # run.sh / run.bat (build and launch)
+├── deliverables/            # Final report (.pdf) and presentation (.pptx)
+├── run.sh / run.bat         # Launchers (call scripts/run.*)
 └── README.md
 ```
 
-## UML diagrams (in the `UML` folder)
+## UML diagrams (sources in `docs/diagrams`, images in `docs/img`)
 
 1. Class diagram - domain model
 2. Class diagram - services, interfaces and web layer
@@ -91,7 +95,7 @@ InternshipManagementSystem/
 5. Sequence diagram - student applies for an internship
 6. Activity diagram - application process
 
-![Domain class diagram](UML/1-class-diagram-domain.png)
+![Domain class diagram](docs/img/1-class-diagram-domain.png)
 
 ## Test cases
 

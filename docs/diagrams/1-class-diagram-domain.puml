@@ -1,0 +1,111 @@
+@startuml
+title Class Diagram - Domain Model (packages: model)
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam classFontStyle bold
+
+abstract class User {
+  - id : String
+  - name : String
+  - email : String
+  - passwordHash : String
+  + getId() : String
+  + getName() : String
+  + getEmail() : String
+  + setName(name : String) : void
+  + setEmail(email : String) : void
+  + passwordMatches(hash : String) : boolean
+  + {abstract} getRole() : String
+  + {abstract} getDashboardTitle() : String
+  + {abstract} getMenuLinks() : String[][]
+  + describe() : String
+}
+
+class Student {
+  - course : String
+  - skills : String
+  + getCourse() : String
+  + getSkills() : String
+  + setCourse(course : String) : void
+  + setSkills(skills : String) : void
+  + getRole() : String
+  + getDashboardTitle() : String
+  + getMenuLinks() : String[][]
+  + describe() : String
+}
+
+class CompanyRepresentative {
+  - companyId : String
+  + getCompanyId() : String
+  + getRole() : String
+  + getDashboardTitle() : String
+  + getMenuLinks() : String[][]
+  + describe() : String
+}
+
+class Administrator {
+  + getRole() : String
+  + getDashboardTitle() : String
+  + getMenuLinks() : String[][]
+}
+
+class Company {
+  - id : String
+  - name : String
+  - industry : String
+  - location : String
+  + Company()
+  + Company(id, name, industry, location)
+  + getters / setters
+}
+
+class Internship {
+  - id : String
+  - companyId : String
+  - companyName : String
+  - title : String
+  - location : String
+  - description : String
+  - stipend : int
+  - durationMonths : int
+  - open : boolean
+  - postedOn : LocalDate
+  + isOpen() : boolean
+  + close() : void
+  + getters / setters
+}
+
+class Application {
+  - id : String
+  - studentId : String
+  - internshipId : String
+  - status : ApplicationStatus
+  - appliedOn : LocalDate
+  + getStatus() : ApplicationStatus
+  + setStatus(status : ApplicationStatus) : void
+}
+
+enum ApplicationStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  + {static} fromText(text : String) : ApplicationStatus
+}
+
+interface Serializable <<java.io>>
+
+Serializable <|.. User
+Serializable <|.. Company
+Serializable <|.. Internship
+Serializable <|.. Application
+
+User <|-- Student
+User <|-- CompanyRepresentative
+User <|-- Administrator
+
+Company "1" -- "1..*" CompanyRepresentative : represents <
+Company "1" -- "0..*" Internship : posts >
+Student "1" -- "0..*" Application : submits >
+Internship "1" -- "0..*" Application : receives >
+Application --> ApplicationStatus : status
+@enduml

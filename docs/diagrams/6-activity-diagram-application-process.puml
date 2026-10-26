@@ -1,0 +1,28 @@
+@startuml
+title Activity Diagram - Internship application process
+skinparam shadowing false
+
+start
+:Student logs in;
+:Browse or search open internships;
+:Select an internship and click Apply;
+if (Internship exists and is open?) then (yes)
+  if (Student already applied?) then (no)
+    :Create application with status PENDING;
+    :Save to applications.dat;
+    :Company representative opens applicants list;
+    if (Company decision) then (Accept)
+      :Status = ACCEPTED;
+    else (Reject)
+      :Status = REJECTED;
+    endif
+    :Save updated status;
+    :Student views final status in My Applications;
+  else (yes)
+    :Show DuplicateApplicationException message;
+  endif
+else (no)
+  :Show InternshipNotFound / InternshipClosed message;
+endif
+stop
+@enduml

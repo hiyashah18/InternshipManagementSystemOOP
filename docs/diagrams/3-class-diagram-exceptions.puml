@@ -1,0 +1,32 @@
+@startuml
+title Class Diagram - Custom Exception Hierarchy (package exception)
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+
+class Exception <<java.lang>>
+
+class InternshipSystemException {
+  + InternshipSystemException(message : String)
+  + InternshipSystemException(message : String, cause : Throwable)
+}
+
+class InvalidInputException
+class DuplicateApplicationException
+class InternshipNotFoundException
+class InternshipClosedException
+class AuthenticationException
+class DataStorageException
+
+Exception <|-- InternshipSystemException
+InternshipSystemException <|-- InvalidInputException
+InternshipSystemException <|-- DuplicateApplicationException
+InternshipSystemException <|-- InternshipNotFoundException
+InternshipSystemException <|-- InternshipClosedException
+InternshipSystemException <|-- AuthenticationException
+InternshipSystemException <|-- DataStorageException
+
+note right of InvalidInputException : empty fields, bad email,\nshort password, invalid numbers
+note right of DuplicateApplicationException : student applies twice\nto the same internship
+note right of InternshipClosedException : applying to a closed internship
+note right of DataStorageException : file cannot be read or written
+@enduml

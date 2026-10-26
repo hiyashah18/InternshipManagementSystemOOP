@@ -1,0 +1,50 @@
+@startuml
+title Use Case Diagram - Internship Management System
+left to right direction
+skinparam shadowing false
+
+actor Student
+actor "Company\nRepresentative" as Company
+actor Administrator
+
+rectangle "Internship Management System" {
+  usecase "Register account" as UC1
+  usecase "Login / Logout" as UC2
+  usecase "Browse and search internships" as UC3
+  usecase "Apply for internship" as UC4
+  usecase "Track application status" as UC5
+  usecase "Post internship" as UC6
+  usecase "Close internship" as UC7
+  usecase "View applicants" as UC8
+  usecase "Accept / reject applicant" as UC9
+  usecase "View all records" as UC10
+  usecase "Remove student" as UC11
+  usecase "Remove internship" as UC12
+  usecase "Validate application\n(open + no duplicate)" as UC13
+  usecase "Save / load data files" as UC14
+}
+
+Student --> UC1
+Student --> UC2
+Student --> UC3
+Student --> UC4
+Student --> UC5
+
+Company --> UC1
+Company --> UC2
+Company --> UC6
+Company --> UC7
+Company --> UC8
+Company --> UC9
+
+Administrator --> UC2
+Administrator --> UC10
+Administrator --> UC11
+Administrator --> UC12
+
+UC4 ..> UC13 : <<include>>
+UC1 ..> UC14 : <<include>>
+UC4 ..> UC14 : <<include>>
+UC6 ..> UC14 : <<include>>
+UC9 ..> UC14 : <<include>>
+@enduml

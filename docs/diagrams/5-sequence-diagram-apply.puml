@@ -1,0 +1,42 @@
+@startuml
+title Sequence Diagram - Student applies for an internship
+skinparam shadowing false
+autonumber
+
+actor Student
+participant Browser
+participant WebServer
+participant ApplicationService
+participant InternshipService
+participant "DataStore<Application>" as Store
+
+Student -> Browser : click "Apply"
+Browser -> WebServer : POST /apply (internshipId)
+WebServer -> WebServer : check logged-in user has role STUDENT
+WebServer -> ApplicationService : apply(studentId, internshipId)
+ApplicationService -> InternshipService : findOpenById(internshipId)
+
+alt internship does not exist
+  InternshipService --> ApplicationService : throws InternshipNotFoundException
+else internship is closed
+  InternshipService --> ApplicationService : throws InternshipClosedException
+else internship is open
+  InternshipService --> ApplicationService : Internship
+  ApplicationService -> ApplicationService : hasApplied(studentId, internshipId)
+  alt already applied
+    ApplicationService --> WebServer : throws DuplicateApplicationException
+  else first application
+    ApplicationService -> ApplicationService : new Application(status = PENDING)
+    ApplicationService -> Store : save(all applications)
+    Store --> ApplicationService : saved to applications.dat
+    ApplicationService --> WebServer : Application
+  end
+end
+
+alt success
+  WebServer --> Browser : redirect to /applications (success message)
+else exception caught
+  WebServer --> Browser : redirect to /internships (error message)
+end
+Browser --> Student : shows result
+@enduml

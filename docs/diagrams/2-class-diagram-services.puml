@@ -1,0 +1,107 @@
+@startuml
+title Class Diagram - Services, Interfaces and Web Layer
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+
+package service {
+  interface Searchable<T> <<interface>> {
+    + search(keyword : String) : List<T>
+  }
+  interface Manageable<T> <<interface>> {
+    + add(item : T) : void
+    + remove(id : String) : boolean
+    + findById(id : String) : T
+    + getAll() : List<T>
+  }
+  interface Applicable <<interface>> {
+    + apply(studentId : String, internshipId : String) : Application
+  }
+
+  class UserService {
+    - users : Map<String, User>
+    + registerStudent(...) : Student
+    + registerCompanyRep(...) : CompanyRepresentative
+    + registerAdmin(...) : Administrator
+    + login(email, password) : User
+    + findByEmail(email) : User
+    + getStudents() : List<Student>
+    + ensureEmailFree(email) : void
+  }
+  class CompanyService {
+    - companies : Map<String, Company>
+    + addCompany(name, industry, location) : Company
+  }
+  class InternshipService {
+    - internships : Map<String, Internship>
+    + post(company, title, location, description, stipend, months) : Internship
+    + search(keyword) : List<Internship>
+    + search(keyword, location) : List<Internship>
+    + getByCompany(companyId) : List<Internship>
+    + findOpenById(id) : Internship
+    + close(internshipId, companyId) : void
+  }
+  class ApplicationService {
+    - applications : Map<String, Application>
+    + apply(studentId, internshipId) : Application
+    + hasApplied(studentId, internshipId) : boolean
+    + updateStatus(applicationId, status, companyId) : void
+    + getByStudent(studentId) : List<Application>
+    + getByInternship(internshipId) : List<Application>
+    + removeByStudent(studentId) : void
+    + removeByInternship(internshipId) : void
+  }
+}
+
+package util {
+  class "DataStore<T extends Serializable>" as DataStore {
+    - file : File
+    + save(items : List<T>) : void
+    + load() : List<T>
+  }
+  class Validator <<utility>>
+  class PasswordUtil <<utility>>
+  class IdGenerator <<utility>>
+  class SampleData <<utility>>
+}
+
+package web {
+  class WebServer {
+    - sessions : Map<String, String>
+    + start(port : int) : void
+    + handle(exchange : HttpExchange) : void
+  }
+  class Html <<utility>>
+}
+
+package main {
+  class Main {
+    + {static} main(args : String[]) : void
+  }
+}
+
+interface HttpHandler <<com.sun.net.httpserver>>
+
+Manageable <|.. UserService : T = User
+Manageable <|.. CompanyService : T = Company
+Manageable <|.. InternshipService : T = Internship
+Searchable <|.. InternshipService : T = Internship
+Applicable <|.. ApplicationService
+HttpHandler <|.. WebServer
+
+UserService --> DataStore : uses
+CompanyService --> DataStore : uses
+InternshipService --> DataStore : uses
+ApplicationService --> DataStore : uses
+ApplicationService --> InternshipService : checks internship
+UserService ..> PasswordUtil
+UserService ..> Validator
+UserService ..> IdGenerator
+
+WebServer --> UserService
+WebServer --> CompanyService
+WebServer --> InternshipService
+WebServer --> ApplicationService
+WebServer ..> Html
+Main ..> WebServer : creates and starts
+Main ..> SampleData : loads demo data
+@enduml
