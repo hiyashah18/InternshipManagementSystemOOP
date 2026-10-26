@@ -2,7 +2,7 @@
 
 **Group 6 - Java OOP Mini Project** | SVKM's NMIMS MPSTME, Mumbai
 
-**Authors:** _<add names and roll numbers here>_
+**Authors:** Hiya Shah (R055), Manyata Rao (R049)
 
 A Java web application that manages students, companies, internship postings, applications and selection status.
 It runs on the web server built into Java (`com.sun.net.httpserver`), so **no external libraries, frameworks or database are needed**.
@@ -77,16 +77,15 @@ InternshipManagementSystemOOP/
 │   ├── web/                 #   WebServer, Html
 │   └── main/                #   Main (entry point)
 ├── data/                    # Saved data files (*.dat, created at runtime)
-├── docs/
-│   ├── diagrams/            # PlantUML sources (.puml)
-│   └── img/                 # Rendered UML diagrams (.png)
+├── docs/                    # Final report (.pdf) and presentation (.pptx)
+│   ├── img/                 # UML diagrams (.png)
+│   └── screenshots/         # Screenshots of the application output
 ├── scripts/                 # run.sh / run.bat (build and launch)
-├── deliverables/            # Final report (.pdf) and presentation (.pptx)
 ├── run.sh / run.bat         # Launchers (call scripts/run.*)
 └── README.md
 ```
 
-## UML diagrams (sources in `docs/diagrams`, images in `docs/img`)
+## UML diagrams (in `docs/img`)
 
 1. Class diagram - domain model
 2. Class diagram - services, interfaces and web layer
